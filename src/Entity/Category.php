@@ -18,16 +18,6 @@ class Category
     #[ORM\Column(length: 50)]
     private ?string $label = null;
 
-    /**
-     * @var Collection<int, Book>
-     */
-    #[ORM\ManyToMany(targetEntity: Book::class, mappedBy: 'categories')]
-    private Collection $books;
-
-    public function __construct()
-    {
-        $this->books = new ArrayCollection();
-    }
 
     public function getId(): ?int
     {
@@ -49,33 +39,6 @@ class Category
     public function setLabel(string $label): static
     {
         $this->label = $label;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Book>
-     */
-    public function getBooks(): Collection
-    {
-        return $this->books;
-    }
-
-    public function addBook(Book $book): static
-    {
-        if (!$this->books->contains($book)) {
-            $this->books->add($book);
-            $book->addCategory($this);
-        }
-
-        return $this;
-    }
-
-    public function removeBook(Book $book): static
-    {
-        if ($this->books->removeElement($book)) {
-            $book->removeCategory($this);
-        }
 
         return $this;
     }
